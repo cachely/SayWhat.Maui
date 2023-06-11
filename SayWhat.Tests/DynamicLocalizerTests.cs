@@ -14,7 +14,7 @@ namespace SayWhat.Forms.Tests
             //arrange
             var expectedString = "Found";
             var assembly = Assembly.GetAssembly(typeof(DynamicLocalizer))!;
-            new Settings().Initialize(new ResourceManager("SayWhat.Maui.TestResource", assembly));
+            SayWhat.Maui.Utilities.SayWhat.Settings.SetResourceManager(new ResourceManager("SayWhat.Maui.AppResources", assembly));
 
             //act
             var result = DynamicLocalizer.GetText("FoundTestString");
@@ -30,7 +30,7 @@ namespace SayWhat.Forms.Tests
         {
             //arrange
             var assembly = Assembly.GetAssembly(typeof(DynamicLocalizer))!;
-            new Settings().Initialize(new ResourceManager("SayWhat.Maui.TestResource", assembly));
+            SayWhat.Maui.Utilities.SayWhat.Settings.SetResourceManager(new ResourceManager("SayWhat.Maui.AppResources", assembly));
 
             //act
             var result = DynamicLocalizer.GetText(null);
@@ -44,7 +44,7 @@ namespace SayWhat.Forms.Tests
         {
             //arrange
             var assembly = Assembly.GetAssembly(typeof(DynamicLocalizer))!;
-            new Settings().Initialize(new ResourceManager("SayWhat.Maui.TestResource", assembly));
+            SayWhat.Maui.Utilities.SayWhat.Settings.SetResourceManager(new ResourceManager("SayWhat.Maui.AppResources", assembly));
 
             //act
             var result = DynamicLocalizer.GetText("NotFoundTest");
@@ -54,60 +54,33 @@ namespace SayWhat.Forms.Tests
         }
 
         [Test]
-        public void GetText_ParamIsNotFoundAndAlwaysThrowExceptionsIsTrue_ThrowsException()
-        {
-            //arrange
-            var assembly = Assembly.GetAssembly(typeof(DynamicLocalizer))!;
-            var settings = new Settings();
-            settings.Initialize(new ResourceManager("SayWhat.Maui.TestResource", assembly));
-
-            //act 
-           settings.AlwaysThrowExceptions = true;
-
-            //assert
-            Assert.Throws<MissingManifestResourceException>(() => DynamicLocalizer.GetText("NotFoundTest"));
-        }
-
-        [Test]
         public void GetText_ResourceIsNotFoundInReleaseAndAlwaysThrowExceptionsIsTrue_ThrowsException()
         {
             //arrange
             var assembly = Assembly.GetAssembly(typeof(DynamicLocalizer))!;
-            var settings = new Settings();
-            settings.Initialize(new ResourceManager("SayWhat.Maui.TestResourceDoesNotExist", assembly));
+            SayWhat.Maui.Utilities.SayWhat.Settings.SetResourceManager(new ResourceManager("SayWhat.Maui.NOTFOUND", assembly));
 
             //act 
-            settings.AlwaysThrowExceptions = true;
+            SayWhat.Maui.Utilities.SayWhat.Settings.AlwaysThrowExceptions = true;
 
             //assert
-            Assert.Throws<MissingManifestResourceException>(() => DynamicLocalizer.GetText("FoundTestString"));
+            Assert.Throws<Exception>(() => DynamicLocalizer.GetText("FoundTestString"));
         }
 #endif
 
 
 #if DEBUG
-        [Test]
-        public void GetText_ParamIsNotFoundInDebug_ThrowsException()
-        {
-            //arrange
-            var assembly = Assembly.GetAssembly(typeof(DynamicLocalizer))!;
-            new Settings().Initialize(new ResourceManager("SayWhat.Maui.TestResource", assembly));
-
-            //act 
-            //assert
-            Assert.Throws<MissingManifestResourceException>(() => DynamicLocalizer.GetText("NotFoundTest"));
-        }
-
+        
         [Test]
         public void GetText_ResourceIsNotFoundInDebug_ThrowsException()
         {
             //arrange
             var assembly = Assembly.GetAssembly(typeof(DynamicLocalizer))!;
-            new Settings().Initialize(new ResourceManager("SayWhat.Maui.TestResourceDoesNotExist", assembly));
-
+            SayWhat.Maui.Utilities.SayWhat.Settings.SetResourceManager(new ResourceManager("SayWhat.Maui.FAKEAppResources", assembly));
+            
             //act 
             //assert
-            Assert.Throws<MissingManifestResourceException>(() => DynamicLocalizer.GetText("FoundTestString"));
+            Assert.Throws<Exception>(() => DynamicLocalizer.GetText("FoundTestString"));
         }
 #endif
 

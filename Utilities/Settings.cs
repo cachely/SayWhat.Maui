@@ -16,10 +16,6 @@ namespace SayWhat.Maui.Utilities
        private static Lazy<Settings> _settingsInstance = new Lazy<Settings>(() => new Settings());
 
        public static Settings Settings => _settingsInstance.Value;
-
-        public static void InitializeSettings(ResourceManager resourceManager, string cultureKey = "en-US")
-        { 
-        }
     }
 
     /// <summary>
