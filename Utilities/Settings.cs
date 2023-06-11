@@ -3,6 +3,7 @@ using SayWhat.Maui.Messages;
 using System.Globalization;
 using System.Resources;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 [assembly: InternalsVisibleTo("SayWhat.Tests")]
 namespace SayWhat.Maui.Utilities
@@ -14,7 +15,11 @@ namespace SayWhat.Maui.Utilities
     {
        private static Lazy<Settings> _settingsInstance = new Lazy<Settings>(() => new Settings());
 
-        public static Settings Settings => _settingsInstance.Value;
+       public static Settings Settings => _settingsInstance.Value;
+
+        public static void InitializeSettings(ResourceManager resourceManager, string cultureKey = "en-US")
+        { 
+        }
     }
 
     /// <summary>
@@ -22,6 +27,8 @@ namespace SayWhat.Maui.Utilities
     /// </summary>
     public sealed class Settings
     {
+        private bool _initialized;
+
         /// <summary>
         /// Turns on throwing exceptions in Release Configuration.
         /// Otherwise Exceptions are only thrown in Debug Configuration.
@@ -34,10 +41,8 @@ namespace SayWhat.Maui.Utilities
         /// Initializes framework with provided resource manager.
         /// </summary>
         /// <param name="resourceManager">Applications resource manger will be assigned to a singleton internally</param>
-        /// <param name="cultureKey">Defaults to en-US, but can be overwritten</param>
-        public void Initialize(ResourceManager resourceManager, string cultureKey = "en-US")
+        public void SetResourceManager(ResourceManager resourceManager)
         {
-            Culture = new CultureInfo(cultureKey);
             DynamicLocalizer.CreateResourceManager(resourceManager);
         }
 
@@ -48,7 +53,11 @@ namespace SayWhat.Maui.Utilities
         public void UpdateCulture(string cultureKey = "en-US")
         {
             Culture = new CultureInfo(cultureKey);
-            new WeakReferenceMessenger().Send<CultureChangedMessage>();
+
+            if (_initialized)
+                WeakReferenceMessenger.Default.Send<CultureChangedMessage>();
+            else
+                _initialized = true;            
         }
     }
 }

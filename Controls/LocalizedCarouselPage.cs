@@ -17,7 +17,7 @@ namespace SayWhat.Maui.Controls
 
         public LocalizedCarouselPage() 
         {
-            new WeakReferenceMessenger().Register<CultureChangedMessage>(this, (o, s) => UpdateText(this));
+            WeakReferenceMessenger.Default.Register<CultureChangedMessage>(this, (o, s) => UpdateText(this));
         }
 
         public string TitleResourceName
@@ -45,7 +45,7 @@ namespace SayWhat.Maui.Controls
 
         public void Dispose()
         {
-            new WeakReferenceMessenger().Unregister<CultureChangedMessage>(this);
+            WeakReferenceMessenger.Default.Unregister<CultureChangedMessage>(this);
         }
     }
 }
