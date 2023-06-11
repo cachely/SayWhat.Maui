@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Resources;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("SayWhat.Tests")]
 namespace SayWhat.Maui.Utilities
 {
     internal static class DynamicLocalizer

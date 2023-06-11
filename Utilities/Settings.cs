@@ -2,7 +2,9 @@
 using SayWhat.Maui.Messages;
 using System.Globalization;
 using System.Resources;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("SayWhat.Tests")]
 namespace SayWhat.Maui.Utilities
 {
     /// <summary>

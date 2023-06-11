@@ -18,6 +18,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="SayWhat.Tests\**" />
+	  <EmbeddedResource Remove="SayWhat.Tests\**" />
+	  <MauiCss Remove="SayWhat.Tests\**" />
+	  <MauiXaml Remove="SayWhat.Tests\**" />
+	  <None Remove="SayWhat.Tests\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Folder Include="Platforms\Android\" />
 	  <Folder Include="Platforms\iOS\" />
 	  <Folder Include="Platforms\MacCatalyst\" />
