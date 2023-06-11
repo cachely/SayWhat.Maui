@@ -18,10 +18,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="SayWhat.Demo.Maui\**" />
 	  <Compile Remove="SayWhat.Tests\**" />
+	  <EmbeddedResource Remove="SayWhat.Demo.Maui\**" />
 	  <EmbeddedResource Remove="SayWhat.Tests\**" />
+	  <MauiCss Remove="SayWhat.Demo.Maui\**" />
 	  <MauiCss Remove="SayWhat.Tests\**" />
+	  <MauiXaml Remove="SayWhat.Demo.Maui\**" />
 	  <MauiXaml Remove="SayWhat.Tests\**" />
+	  <None Remove="SayWhat.Demo.Maui\**" />
 	  <None Remove="SayWhat.Tests\**" />
 	</ItemGroup>
 
