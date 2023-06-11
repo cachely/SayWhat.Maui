@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Resources;
 
-namespace SayWhat.Forms.Utilities
+namespace SayWhat.Maui.Utilities
 {
     internal static class DynamicLocalizer
     {
@@ -28,7 +28,7 @@ namespace SayWhat.Forms.Utilities
 #endif
                 if (_throwExceptions)
                 {
-                    throw e;
+                    throw new Exception(e.Message, e.InnerException);
                 }
             }
 

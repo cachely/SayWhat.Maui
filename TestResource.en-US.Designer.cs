@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SayWhat.Forms {
+namespace SayWhat.Maui {
     using System;
     
     

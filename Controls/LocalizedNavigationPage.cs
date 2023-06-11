@@ -1,8 +1,8 @@
-﻿using SayWhat.Forms.Messages;
-using SayWhat.Forms.Utilities;
-using Xamarin.Forms;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using SayWhat.Maui.Messages;
+using SayWhat.Maui.Utilities;
 
-namespace SayWhat.Forms.Controls
+namespace SayWhat.Maui.Controls
 {
     public class LocalizedNavigationPage : ContentPage 
     {
@@ -17,7 +17,7 @@ namespace SayWhat.Forms.Controls
 
         public LocalizedNavigationPage() 
         {
-            MessagingCenter.Subscribe<object>(new object(), CultureChangedMessage.Message, (o) => UpdateText(this));
+            new WeakReferenceMessenger().Register<CultureChangedMessage>(this, (o, s) => UpdateText(this));
         }
 
         public string TitleResourceName
@@ -45,7 +45,7 @@ namespace SayWhat.Forms.Controls
 
         public void Dispose()
         {
-            MessagingCenter.Unsubscribe<object>(new object(), CultureChangedMessage.Message);
+            new WeakReferenceMessenger().Unregister<CultureChangedMessage>(this);
         }
     }
 }

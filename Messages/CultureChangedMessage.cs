@@ -1,7 +1,6 @@
-﻿namespace SayWhat.Forms.Messages
+﻿namespace SayWhat.Maui.Messages
 {
     internal class CultureChangedMessage
-    {
-        internal static readonly string Message = "Culture Updated";
+    {   
     }
 }

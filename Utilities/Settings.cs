@@ -1,10 +1,9 @@
-﻿using SayWhat.Forms.Messages;
-using System;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using SayWhat.Maui.Messages;
 using System.Globalization;
 using System.Resources;
-using Xamarin.Forms;
 
-namespace SayWhat.Forms.Utilities
+namespace SayWhat.Maui.Utilities
 {
     /// <summary>
     /// Provides access to the singleton Settings property.
@@ -27,7 +26,7 @@ namespace SayWhat.Forms.Utilities
         /// </summary>
         public bool AlwaysThrowExceptions { get; set; } = false;
 
-        internal CultureInfo Culture { get; private set; }
+        internal CultureInfo Culture { get; private set; } = new CultureInfo("en-US");
 
         /// <summary>
         /// Initializes framework with provided resource manager.
@@ -47,7 +46,7 @@ namespace SayWhat.Forms.Utilities
         public void UpdateCulture(string cultureKey = "en-US")
         {
             Culture = new CultureInfo(cultureKey);
-            MessagingCenter.Send(new object(), CultureChangedMessage.Message);
+            new WeakReferenceMessenger().Send<CultureChangedMessage>();
         }
     }
 }
