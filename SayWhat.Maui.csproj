@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
@@ -22,18 +22,29 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Copyright>Ashley Proctor 2023</Copyright>
+		<PackageProjectUrl>https://github.com/cachely/SayWhat.Maui</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/cachely/SayWhat.Maui</RepositoryUrl>
+		<PackageTags>Maui; .NET; Localization</PackageTags>
+		<PackageReleaseNotes>Maui version of SayWhat inital release</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <Compile Remove="SayWhat.Demo.Maui\**" />
+	  <Compile Remove="SayWhat.Maui.Demo\**" />
 	  <Compile Remove="SayWhat.Tests\**" />
 	  <EmbeddedResource Remove="SayWhat.Demo.Maui\**" />
+	  <EmbeddedResource Remove="SayWhat.Maui.Demo\**" />
 	  <EmbeddedResource Remove="SayWhat.Tests\**" />
 	  <MauiCss Remove="SayWhat.Demo.Maui\**" />
+	  <MauiCss Remove="SayWhat.Maui.Demo\**" />
 	  <MauiCss Remove="SayWhat.Tests\**" />
 	  <MauiXaml Remove="SayWhat.Demo.Maui\**" />
+	  <MauiXaml Remove="SayWhat.Maui.Demo\**" />
 	  <MauiXaml Remove="SayWhat.Tests\**" />
 	  <None Remove="SayWhat.Demo.Maui\**" />
+	  <None Remove="SayWhat.Maui.Demo\**" />
 	  <None Remove="SayWhat.Tests\**" />
 	</ItemGroup>
 
@@ -70,6 +81,13 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
