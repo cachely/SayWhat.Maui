@@ -10,6 +10,7 @@
         VerticalOptions="Center">
         <sw:LocalizedLabel 
             TextResourceName="HelloWorld" 
+            LineBreakMode="WordWrap"
             FontSize="18"/>
         <sw:LocalizedEntry
             PlaceHolderResourceName="PlaceholderText" />
