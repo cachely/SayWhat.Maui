@@ -1,4 +1,4 @@
-# SayWhat.Forms
+# SayWhat.Maui
 Dynamic localization framework for Xamarin.Forms. Using wrapper classes for controls and pages, applications are able to update localized text to the UI regardless of chosen
 design patterns or UI implementation (c# or xaml). 
 <!-- wp:heading -->
@@ -14,7 +14,7 @@ design patterns or UI implementation (c# or xaml).
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><a href="https://github.com/cachely/SayWhat.Forms/tree/main/SayWhat.Forms.Demo">Click here For a full example and demo.</a> </p>
+<p><a href="https://github.com/cachely/SayWhat.Maui/tree/058509d8b5a89aff15789f1b44f5d477ecfac816/SayWhat.Maui.Demo">Click here For a full example and demo.</a> </p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":4} -->
@@ -22,7 +22,9 @@ design patterns or UI implementation (c# or xaml).
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>var resourceManager = new ResourceManager("SayWhat.Forms.Demo.Resources.AppResources", Assembly.GetAssembly(typeof(Main Page))); Utilities.SayWhat.Settings.Initialize(resourceManager, CurrentCulture);</p>
+<p>var resourceManager = new ResourceManager("SayWhat.Forms.Demo.Resources.AppResources", Assembly.GetAssembly(typeof(MainPage)));
+Utilities.SayWhat.Settings.SetResourceManager(resourceManager); 
+Utilities.SayWhat.Settings.UpdateCulture(new CultureInfo({CultureHere}));</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -34,7 +36,7 @@ design patterns or UI implementation (c# or xaml).
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><a href="https://github.com/cachely/SayWhat.Forms/blob/7d90b920c7e2644547f8f9292405e0e14db9c15b/SayWhat.Forms.Demo/SayWhat.Forms.Demo/MainPage.xaml">File on GitHub</a></p>
+<p><a href="https://github.com/cachely/SayWhat.Maui/blob/058509d8b5a89aff15789f1b44f5d477ecfac816/SayWhat.Maui.Demo/MainPage.xaml">File on GitHub</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -48,10 +50,10 @@ design patterns or UI implementation (c# or xaml).
 <!-- wp:code -->
 <pre class="wp-block-code"><code>&lt;?xml version="1.0" encoding="utf-8" ?>
 &lt;sw:LocalizedContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    <strong>xmlns:sw="clr-namespace:SayWhat.Forms.Controls;assembly=SayWhat.Forms"</strong>
-    x:Class="SayWhat.Forms.Demo.MainPage"
+    <strong> xmlns:sw="clr-namespace:SayWhat.Maui.Controls;assembly=SayWhat.Maui"</strong>
+    x:Class="SayWhat.Maui.Demo.MainPage"
     <strong>TitleResourceName="TranslatedTitle"</strong>>
     &lt;StackLayout 
         HorizontalOptions="Center"
@@ -105,55 +107,54 @@ public MainPage : LocalizedContentPage
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>using SayWhat.Forms.Messages;
-using SayWhat.Forms.Utilities;
-using System;
-using Xamarin.Forms;
+<pre class="wp-block-code"><code>﻿using CommunityToolkit.Mvvm.Messaging;
+using SayWhat.Maui.Messages;
+using SayWhat.Maui.Utilities;
 
-namespace SayWhat.Forms.Controls
+namespace SayWhat.Maui.Controls
 {
-    public class LocalizedLabel : Label, IDisposable
+    public class LocalizedContentPage : ContentPage 
     {
-        public static readonly BindableProperty TextResourceNameProperty =
-            BindableProperty.Create(
-                  nameof(TextResourceName),
-                  typeof(string),
-                  typeof(LocalizedLabel),
-                  null,
-                  BindingMode.Default,
-                  propertyChanged: TextResourceNameChanged);
+        public static readonly BindableProperty TitleResourceNameProperty =
+        BindableProperty.Create(
+            nameof(TitleResourceName),
+            typeof(string),
+            typeof(LocalizedContentPage),
+            null,
+            BindingMode.Default,
+            propertyChanged: TitleResourceNameChanged);
 
-        public LocalizedLabel()
+        public LocalizedContentPage() 
         {
-            MessagingCenter.Subscribe&lt;object>(new object(), CultureChangedMessage.Message, (o) => UpdateText(this));
+            WeakReferenceMessenger.Default.Register<CultureChangedMessage>(this, (o, s) => UpdateText(this));
         }
 
-        public string TextResourceName
+        public string TitleResourceName
         {
-            get => GetValue(TextResourceNameProperty) as string;
-            set => SetValue(TextResourceNameProperty, value);
+            get => GetValue(TitleResourceNameProperty) as string;
+            set => SetValue(TitleResourceNameProperty, value);
         }
 
-       <strong> public static void TextResourceNameChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            LocalizedLabel label = (LocalizedLabel)bindable;
-            label.TextResourceName = (string) newValue;
-            SetText(label);
-        }</strong>
-
-        public static void SetText(LocalizedLabel label)
-        {
-            label.Text = DynamicLocalizer.GetText(label.TextResourceName);
+        public static void TitleResourceNameChanged(BindableObject bindable, object oldValue, object newValue)
+        { 
+            var page = bindable as LocalizedContentPage;
+            page.TitleResourceName = (string)newValue;
+            SetPlaceHolder(page);
         }
 
-        public void UpdateText(LocalizedLabel label)
+        public static void SetPlaceHolder(LocalizedContentPage page)
         {
-            label.Text = DynamicLocalizer.GetText(label.TextResourceName);
+            page.Title = DynamicLocalizer.GetText(page.TitleResourceName);
+        }
+
+        public void UpdateText(LocalizedContentPage page)
+        {
+            page.Title = DynamicLocalizer.GetText(page.TitleResourceName);
         }
 
         public void Dispose()
         {
-            MessagingCenter.Unsubscribe&lt;object>(new object(), CultureChangedMessage.Message);
+            WeakReferenceMessenger.Default.Unregister<CultureChangedMessage>(this);
         }
     }
 }</code></pre>
@@ -165,16 +166,4 @@ namespace SayWhat.Forms.Controls
 
 <!-- wp:paragraph -->
 <p>In the future, I hope to support more localized items such as images, but if you want to jump in the game, feel free to fork the repository too! Hopefully, this framework will make someone's life a little easier if the requirement of dynamic localization ever comes their way.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>When Maui is fully released, I look forward to updating the framework to accommodate it, if applicable. </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading -->
-<h2>Have a different solution?</h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>I'm always interested in learning better ways to manage code. If you have a different or better solution to the same problem, comment and let me know. I'd love to hear from you.</p>
 <!-- /wp:paragraph -->
