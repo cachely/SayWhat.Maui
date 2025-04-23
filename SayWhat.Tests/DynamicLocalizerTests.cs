@@ -20,7 +20,7 @@ namespace SayWhat.Forms.Tests
             var result = DynamicLocalizer.GetText("FoundTestString");
 
             //assert
-            Assert.IsNotEmpty(result);
+            Assert.That(result, Is.Not.Empty);
             Assert.That(result, Is.EqualTo(expectedString));
         }
 
@@ -36,7 +36,7 @@ namespace SayWhat.Forms.Tests
             var result = DynamicLocalizer.GetText(null);
             
             //assert
-            Assert.IsEmpty(result);
+            Assert.That(string.IsNullOrEmpty(result));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace SayWhat.Forms.Tests
             var result = DynamicLocalizer.GetText("NotFoundTest");
 
             //assert
-            Assert.IsEmpty(result);
+            Assert.That(string.IsNullOrEmpty(result));
         }
 
         [Test]
